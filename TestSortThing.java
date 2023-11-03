@@ -16,9 +16,9 @@ import java.lang.*;
  * @author Eric Alexander
  * @author Titus Klinge
  * @author Sneha Narayan
- * @author [YOUR NAMES HERE]
+ * @author Anika Rajbhandary and Aimee Yuan
  */
-public class SortTest {
+public class CompareSorts {
 
     /**
      * Helper function you may decide to use to print out a given array to the console.
@@ -37,13 +37,6 @@ public class SortTest {
      * Generates a pseudo-random permutation of the integers from 0 to a.length - 1.
      * See p. 139 of "Seminumerical Algorithms, 2nd edition," by Donald Knuth.
      */
-    public static void fillReverse(int[] a) {
-        // Fill the array with the integers from 0 to a.length - 1.
-        for (int i = 0; i < a.length; i++) {
-            a[i] = a.length - 1 - i;
-        }
-    }
-
     public static void fillAndShuffle(int[] a) {
         // Fill the array with the integers from 0 to a.length - 1.
         int k;
@@ -59,7 +52,13 @@ public class SortTest {
             a[swapIndex] = temp;
         }
     }
-
+    //Creates an array of length a that has items sorted in descending order
+    public static void fillReverse(int[] a) {
+        for (int i = 0; i < a.length; i++) {
+            a[i] = a.length - 1 - i;
+        }
+    }
+    //Creates an array of length a that has items sorted in asending order (presorted)
     public static void fill(int[] a) {
         // Fill the array with the integers from 0 to a.length - 1.
         for (int i = 0; i < a.length; i++) {
@@ -67,6 +66,7 @@ public class SortTest {
         }
     }
 
+    //Bubble Sort algorithm that compares the current and next item, and swaps them if the current is larger than the next item
     public static void bubbleSort(int[] arr) {
         for (int i = 0; i < arr.length - 1; i++) {
             for (int j = 0; j < arr.length - 1 - i; j++) {
@@ -95,19 +95,21 @@ public class SortTest {
         } 
     } 
 
-    /**
-     * You'll put your experiments for the investigation here.
-     * The current contents are just to give you an example.
-     */
+    //Testing the to sorting methods (comment out one when testing the other)
     public static void main(String[] args) {
-        int[] standardSortArray = new int[25000];
-        //fillReverse(standardSortArray);
+        int[] standardSortArray = new int[10];
+        //Beginning with a reverse sorted array that is an array of items from decending order
+        fillReverse(standardSortArray);
+        //Beginning with a random, shuffled array
         //fillAndShuffle(standardSortArray);
-        fill(standardSortArray);
+        //Beginning with a presorted array (all items are in ascending order)
+        //fill(standardSortArray);
+        //Starting the timer
         printArr(standardSortArray);
         long startTime = System.currentTimeMillis();
         //Arrays.sort(standardSortArray);
         bubbleSort(standardSortArray);
+        //Ending the timer
         long endTime = System.currentTimeMillis();
         printArr(standardSortArray);
         System.out.println("Array length: " + standardSortArray.length + "; time to sort (ms): " + (endTime-startTime));
