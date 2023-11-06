@@ -43,11 +43,34 @@ public class WordCountMap {
             current.right = object;
         }
     }
-    //no child, add to left or right based on compareTo
-    //one child, add to left or right if it is null and in the right spot
-        //if there is a child in the way, and the child is less than, keep going
-        //if there is a child and the child is the wrong way, add it to the oppposite side of the child
+
+    public void insertWordRec(Node object){
+        if (root == null){
+            root = object;
+            return;
+        }
+        Node current = root;
+        System.out.println("loop");
+        if (current.word.compareTo(object.word)>0 && current.left == null){
+            current.left = object;
+            System.out.println("hohoho");
+            return;
+        }
+        if (current.word.compareTo(object.word)<0 && current.right == null){
+            current.right = object;
+            System.out.println("hohoho");
+            return;
+        }
+        if (current.word.compareTo(object.word)>0){
+            insertWordRec(current.left);
+        }
         
+        else if (current.word.compareTo(object.word)<0){
+            insertWordRec(current.right);
+        }
+        
+
+    }
 
 
     public void insertCount(Node object){
@@ -91,13 +114,12 @@ public class WordCountMap {
         Node node3 = map.new Node("dog", 1, null, null);
         Node node4 = map.new Node("cat", 1, null, null);
         Node node5 = map.new Node("zebra", 1, null, null);
-        map.insertWord(root);
-        map.insertWord(node);
-        map.insertWord(node2);
-        map.insertWord(node3);
-        map.insertWord(node4);
-        map.insertWord(node5);
-        System.out.println(node3.right.word);
+        map.insertWordRec(root);
+        map.insertWordRec(node);
+        map.insertWordRec(node2);
+        map.insertWordRec(node3);
+        map.insertWordRec(node4);
+        map.insertWordRec(node5);
         printInOrder(root);
 
     }
