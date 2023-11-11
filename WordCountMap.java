@@ -26,23 +26,40 @@ public class WordCountMap {
    * Returns a list of WordCount objects, one per word stored in this
    * WordCountMap, sorted alphabetically by word.
    */
-    // public ArrayList<WordCount> getWordCountsByWord() {
-    //     ArrayList<WordCount> list = new ArrayList<WordCount>();
-    //     if (root == null){
-    //         return list;
-    //     }
-    //     list.add(root.left.word);
-    //     list.add(root);
-    //     getWordCountsByWord(root.right);
-    //     return list;
-    // }
+    public ArrayList<WordCount> getCountsByWord() {
+        // traverse through binary search tree and create a word count object for each node
+        // for each node created, add it to the array list
+        ArrayList<WordCount> list = new ArrayList<>();
+        list = arrayListofWordCountObjectsWord(root, list);
+
+        // then sort the array list based on implements comparable
+        
+        return list;
+    }
+
+    public ArrayList<WordCount> arrayListofWordCountObjectsWord(Node current, ArrayList<WordCount> list){
+        if (current == null){
+            return list;
+        }
+        arrayListofWordCountObjectsWord(current.left, list);
+        WordCount wordCountObject = new WordCount(current.word, current.count);
+        // for (WordCount item : list){
+        //     if (wordCountObject.compareTo(item) > 0 && less than next item in list){
+        //         list.add(wordCountObject);
+        //     }
+        // }
+        list.add(wordCountObject);
+        arrayListofWordCountObjectsWord(current.right, list);
+        return list;
+  }
+
 
     
     public void insertWord(Node current){
-        insertWordRec(root, current);
+        insertWordRecursively(root, current);
     }
 
-    private Node insertWordRec(Node current, Node object){
+    private Node insertWordRecursively(Node current, Node object){
         if (root == null){
             root = object;
             return root;
@@ -56,11 +73,11 @@ public class WordCountMap {
             return current.right;
         }
         if (current.word.compareTo(object.word)>0){
-            insertWordRec(current.left, object);
+            insertWordRecursively(current.left, object);
         }
         
         if (current.word.compareTo(object.word)<0){
-            insertWordRec(current.right, object);
+            insertWordRecursively(current.right, object);
         }
         return current;
     }
@@ -69,11 +86,28 @@ public class WordCountMap {
    * Returns an array list of WordCount objects, one per word stored in this
    * WordCountMap, sorted in decreasing order by count.
    */
-//   public ArrayList<WordCount> getWordCountsByCount() {
-//     //using a binary tree sorted by count,
-//     //return an array list in order
-//     return Array;
-//   }
+  public ArrayList<WordCount> getWordCountsByCount() {
+    ArrayList<WordCount> list = new ArrayList<>();
+    arrayListofWordCountObjectsCount(root, list);
+    
+    return list;
+  }
+
+  
+
+  private ArrayList<WordCount> arrayListofWordCountObjectsCount(Node current, ArrayList<WordCount> list){
+    if (current == null){
+        return list;
+    }
+    arrayListofWordCountObjectsCount(current.left, list);
+    WordCount wordCountObject = new WordCount(current.word, current.count);
+    list.add(wordCountObject);
+    arrayListofWordCountObjectsCount(current.right, list);
+    return list;
+  }
+
+
+
 /**
    * If the specified word is already in this WordCountMap, then its
    * count is increased by one. Otherwise, the word is added to this map
@@ -114,9 +148,12 @@ public class WordCountMap {
 
     }
 
-    //maybe create getData function to get the data the root contains
-
     public static void main(String[] args){
+        // if (args.length != 1) {
+        //     System.err.println();
+        //     System.exit(1);
+        // }
+
         WordCountMap map = new WordCountMap();
         Node root = map.new Node("apple", 16, null, null);
         Node node = map.new Node("banana", 0, null, null);
@@ -134,14 +171,11 @@ public class WordCountMap {
         map.insertWord(node5);
         map.insertWord(node6);
 
-        printInOrder(root);
-        // System.out.println(map.getWordCountsByWord(root));
-        map.incrementCount("apple");
-        System.out.println(root.count);
-        // map.incrementCount("apple");
-        // System.out.println(root.count);
-        map.incrementCount("dog");
-        System.out.println(node3.count);
+        // printInOrder(root);
+        for (WordCount item: map.getWordCountsByCount()){
+            System.out.println(item.count);
+        }
+
 
     }
 }
