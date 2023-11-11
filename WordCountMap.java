@@ -26,14 +26,11 @@ public class WordCountMap {
    * Returns a list of WordCount objects, one per word stored in this
    * WordCountMap, sorted alphabetically by word.
    */
-    public ArrayList<WordCount> getCountsByWord() {
+    public ArrayList<WordCount> getWordCountsByWord() {
         // traverse through binary search tree and create a word count object for each node
         // for each node created, add it to the array list
         ArrayList<WordCount> list = new ArrayList<>();
-        list = arrayListofWordCountObjectsWord(root, list);
-
-        // then sort the array list based on implements comparable
-        
+        list = arrayListofWordCountObjectsWord(root, list);        
         return list;
     }
 
@@ -52,9 +49,7 @@ public class WordCountMap {
         arrayListofWordCountObjectsWord(current.right, list);
         return list;
   }
-
-
-    
+ 
     public void insertWord(Node current){
         insertWordRecursively(root, current);
     }
@@ -89,7 +84,7 @@ public class WordCountMap {
   public ArrayList<WordCount> getWordCountsByCount() {
     ArrayList<WordCount> list = new ArrayList<>();
     arrayListofWordCountObjectsCount(root, list);
-    
+    selectionSortCount(list);
     return list;
   }
 
@@ -105,6 +100,20 @@ public class WordCountMap {
     arrayListofWordCountObjectsCount(current.right, list);
     return list;
   }
+
+  public static void selectionSortCount(ArrayList<WordCount> arr) {
+    for (int i = 0; i < arr.size(); i++) {
+        int pos = i;
+        for (int j = i; j < arr.size(); j++) {
+            if (arr.get(j).count < arr.get(pos).count)
+                pos = j;
+        }
+        // Swap min (smallest num) to current position on array
+        WordCount min = arr.get(pos);
+        arr.set(pos, arr.get(i));
+        arr.set(i, min);
+    }
+}
 
 
 
@@ -149,19 +158,19 @@ public class WordCountMap {
     }
 
     public static void main(String[] args){
-        // if (args.length != 1) {
-        //     System.err.println();
-        //     System.exit(1);
-        // }
+        if (args.length != 1) {
+            System.err.println();
+            System.exit(1);
+        }
 
         WordCountMap map = new WordCountMap();
         Node root = map.new Node("apple", 16, null, null);
-        Node node = map.new Node("banana", 0, null, null);
-        Node node2 = map.new Node("aaron", 0, null, null);
+        Node node = map.new Node("banana", 8, null, null);
+        Node node2 = map.new Node("aaron", 35, null, null);
         Node node3 = map.new Node("dog", 0, null, null);
         Node node4 = map.new Node("cat", 0, null, null);
-        Node node5 = map.new Node("zebra", 0, null, null);
-        Node node6 = map.new Node("bunny", 0, null, null);
+        Node node5 = map.new Node("zebra", 100, null, null);
+        Node node6 = map.new Node("bunny", 3, null, null);
 
         map.insertWord(root);
         map.insertWord(node);
@@ -172,9 +181,10 @@ public class WordCountMap {
         map.insertWord(node6);
 
         // printInOrder(root);
-        for (WordCount item: map.getWordCountsByCount()){
-            System.out.println(item.count);
+        for (WordCount item: map.getWordCountsByWord()){
+            System.out.println(item.word);
         }
+
 
 
     }
