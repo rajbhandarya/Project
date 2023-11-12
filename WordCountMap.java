@@ -7,21 +7,32 @@ public class WordCountMap {
      * tree that maintains a record of words and their counts. 
      * (WordCountMap will make use of two very small classes called Node and WordCount described below.)
      */
-    private Node root;
+    public Node root;
     private class Node<E extends Comparable<E>>{
         private String word;
         private int count;
         private Node left;
         private Node right;
+        
 
         public Node(String word, int count, Node left, Node right){
             this.word = word;
             this.count = count;
             this.left = left;
             this.right = right;
+            
     }
       }
+
+    public Node createNode(String word, int num, Node left, Node right) {
+        return new Node(word, num, left, right);
+    }
+
+    public Node getRoot() {
+        return root; 
+    }
     
+
     
 /**
    * Returns a list of WordCount objects, one per word stored in this
@@ -149,40 +160,6 @@ public class WordCountMap {
         System.out.println(current.word);
         // System.out.println(current.right.word);
         printInOrder(current.right);
-
-    }
-
-
-    public static void main(String[] args){
-        // if (args.length != 1) {
-        //     System.err.println();
-        //     System.exit(1);
-        // }
-
-        WordCountMap map = new WordCountMap();
-        Node root = map.new Node("apple", 16, null, null);
-        Node node = map.new Node("banana", 8, null, null);
-        Node node2 = map.new Node("aaron", 35, null, null);
-        Node node3 = map.new Node("dog", 0, null, null);
-        Node node4 = map.new Node("cat", 0, null, null);
-        Node node5 = map.new Node("zebra", 100, null, null);
-        Node node6 = map.new Node("bunny", 3, null, null);
-
-        map.insertWord(root);
-        map.insertWord(node);
-        map.insertWord(node2);
-        map.insertWord(node3);
-        map.insertWord(node4);
-        map.insertWord(node5);
-        map.insertWord(node6);
-
-        // printInOrder(root);
-        for (WordCount item: map.getWordCountsByCount()){
-            System.out.println(item.count);
-        }
-
-        WordCounter fileWords = new WordCounter();
-        fileWords.load("Federalistpapers.txt");
 
     }
 }
