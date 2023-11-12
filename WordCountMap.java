@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class WordCountMap {
     /**
@@ -40,16 +41,48 @@ public class WordCountMap {
         }
         arrayListofWordCountObjectsWord(current.left, list);
         WordCount wordCountObject = new WordCount(current.word, current.count);
-        // for (WordCount item : list){
-        //     if (wordCountObject.compareTo(item) > 0 && less than next item in list){
-        //         list.add(wordCountObject);
-        //     }
-        // }
         list.add(wordCountObject);
         arrayListofWordCountObjectsWord(current.right, list);
         return list;
   }
  
+        /**
+   * Returns an array list of WordCount objects, one per word stored in this
+   * WordCountMap, sorted in decreasing order by count.
+   */
+  public ArrayList<WordCount> getWordCountsByCount() {
+    ArrayList<WordCount> list = new ArrayList<>();
+    arrayListofWordCountObjectsCount(root, list);
+    selectionSortCount(list);
+    return list;
+  }
+
+
+  private ArrayList<WordCount> arrayListofWordCountObjectsCount(Node current, ArrayList<WordCount> list){
+    if (current == null){
+        return list;
+    }
+    arrayListofWordCountObjectsCount(current.left, list);
+    WordCount wordCountObject = new WordCount(current.word, current.count);
+    list.add(wordCountObject);
+    arrayListofWordCountObjectsCount(current.right, list);
+    return list;
+  }
+
+  public static void selectionSortCount(ArrayList<WordCount> arr) {
+    for (int i = 0; i < arr.size(); i++) {
+        int pos = i;
+        for (int j = i; j < arr.size(); j++) {
+            if (arr.get(j).count < arr.get(pos).count)
+                pos = j;
+        }
+        // Swap min (smallest num) to current position on array
+        WordCount min = arr.get(pos);
+        arr.set(pos, arr.get(i));
+        arr.set(i, min);
+    }
+}
+
     public void insertWord(Node current){
         insertWordRecursively(root, current);
     }
@@ -76,44 +109,6 @@ public class WordCountMap {
         }
         return current;
     }
-
-    /**
-   * Returns an array list of WordCount objects, one per word stored in this
-   * WordCountMap, sorted in decreasing order by count.
-   */
-  public ArrayList<WordCount> getWordCountsByCount() {
-    ArrayList<WordCount> list = new ArrayList<>();
-    arrayListofWordCountObjectsCount(root, list);
-    selectionSortCount(list);
-    return list;
-  }
-
-  
-
-  private ArrayList<WordCount> arrayListofWordCountObjectsCount(Node current, ArrayList<WordCount> list){
-    if (current == null){
-        return list;
-    }
-    arrayListofWordCountObjectsCount(current.left, list);
-    WordCount wordCountObject = new WordCount(current.word, current.count);
-    list.add(wordCountObject);
-    arrayListofWordCountObjectsCount(current.right, list);
-    return list;
-  }
-
-  public static void selectionSortCount(ArrayList<WordCount> arr) {
-    for (int i = 0; i < arr.size(); i++) {
-        int pos = i;
-        for (int j = i; j < arr.size(); j++) {
-            if (arr.get(j).count < arr.get(pos).count)
-                pos = j;
-        }
-        // Swap min (smallest num) to current position on array
-        WordCount min = arr.get(pos);
-        arr.set(pos, arr.get(i));
-        arr.set(i, min);
-    }
-}
 
 
 
@@ -157,11 +152,12 @@ public class WordCountMap {
 
     }
 
+
     public static void main(String[] args){
-        if (args.length != 1) {
-            System.err.println();
-            System.exit(1);
-        }
+        // if (args.length != 1) {
+        //     System.err.println();
+        //     System.exit(1);
+        // }
 
         WordCountMap map = new WordCountMap();
         Node root = map.new Node("apple", 16, null, null);
@@ -181,11 +177,12 @@ public class WordCountMap {
         map.insertWord(node6);
 
         // printInOrder(root);
-        for (WordCount item: map.getWordCountsByWord()){
-            System.out.println(item.word);
+        for (WordCount item: map.getWordCountsByCount()){
+            System.out.println(item.count);
         }
 
-
+        WordCounter fileWords = new WordCounter();
+        fileWords.load("Federalistpapers.txt");
 
     }
 }
